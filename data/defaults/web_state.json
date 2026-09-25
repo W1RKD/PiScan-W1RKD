@@ -1,0 +1,7 @@
+{
+  "location": {"latitude": null, "longitude": null},
+  "radius_miles": 25,
+  "mode": "local",
+  "channels": [],
+  "watch_ids": []
+}
