@@ -1,17 +1,30 @@
-# Web control plane roadmap
+## Stage 2: scanner integration groundwork
 
-The initial web control plane is intentionally independent from the radio hardware. It is a browser-based scan-list planner and PiScan `systems.json` exporter.
+The web layer remains the easiest part to develop in Python: it has no hardware dependencies and can use the standard library for the current prototype. The radio engine should remain C++ because it already owns SDR, demodulation, scanning, RTSP, and the existing Protocol Buffer/TCP stack.
 
-## Why this is separate initially
+This stage adds:
 
-The current PiScan server loads `systems.json` into an in-memory `SystemList` at startup and scans from pre-built frequency bins. Runtime database mutation is not implemented yet. The web editor therefore writes a separate state file and exports a validated `systems.json`; it does not silently modify the running C++ scanner.
+- `proto/scanlist.proto`, defining a versioned scan-list request/response contract.
+- New scan-list message fields in `proto/messages.proto`.
+- A safe `Write systems.json` action in the local web UI.
+- Atomic file replacement so a partially written database is not left behind.
 
-## Next integration step
+The `Write systems.json` action prepares the database for the next PiScan start. It does not claim to hot-reload the running C++ scanner yet. That is intentional: `SystemList` currently owns mutable in-memory bins and must gain a coordinated pause/rebuild/swap operation before runtime updates are enabled.
 
-Add a C++ `ScanListManager` that can safely pause scanning, replace the in-memory list, rebuild bins, and persist `systems.json`. Then replace the web editor's export-only path with a localhost API or Protocol Buffer scan-list request.
+## Run locally
 
-Do not expose the legacy unauthenticated TCP control port to the internet. When remote access is added, put the web service behind authentication and HTTPS.
+```bash
+python3 web/server.py
+```
 
-## Broadcastify
+The default output is `data/systems.json`. To target another working directory:
 
-The current `broadcast` mode is a planning flag only. It does not upload audio. A future `BroadcastSink` should feed an approved Broadcastify-compatible encoder or ingest client using credentials supplied through the appropriate approval process. Do not implement an undocumented direct upload endpoint.
+```bash
+python3 web/server.py --systems /path/to/data/systems.json
+```
+
+## Next C++ step
+
+Implement `SystemList::replaceFromPropertyTree()` and a scanner-state-machine reload event. The operation must pause scanning, construct replacement systems and bins off to the side, swap them under a mutex, reset the bin cursor, and resume scanning. Only after that is tested should the web service send `ScanListRequest.REPLACE` over the localhost PiScan connection.
+
+The browser service should remain bound to `127.0.0.1` until authentication and HTTPS are added. The legacy TCP control port must not be exposed publicly.

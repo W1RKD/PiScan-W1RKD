@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package piscan_pb;
+
+message ScanChannel {
+  string id = 1;
+  string tag = 2;
+  uint64 frequency = 3; // Hz
+  string modulation = 4;
+  string tone = 5;
+  bool enabled = 6;
+  bool watch = 7;
+  double latitude = 8;
+  double longitude = 9;
+}
+
+message ScanListRequest {
+  enum Operation {
+    GET = 0;
+    REPLACE = 1;
+    ADD = 2;
+    REMOVE = 3;
+    RELOAD = 4;
+  }
+
+  Operation operation = 1;
+  repeated ScanChannel channels = 2;
+  string channel_id = 3;
+}
+
+message ScanListResponse {
+  bool success = 1;
+  string message = 2;
+  repeated ScanChannel channels = 3;
+}

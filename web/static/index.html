@@ -1,22 +1,8 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PiScan Control</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header><div><p class="eyebrow">PISCAN / CONTROL PLANE</p><h1>Scanner workspace</h1><p class="muted">Build and test scan lists before connecting radio hardware.</p></div><span id="modeBadge" class="badge">LOCAL</span></header>
-  <main>
-    <section class="card settings"><h2>Location & mode</h2><div class="grid">
-      <label>Latitude<input id="latitude" type="number" step="any" placeholder="42.10"></label>
-      <label>Longitude<input id="longitude" type="number" step="any" placeholder="-72.60"></label>
-      <label>Radius<select id="radius"><option>5</option><option>10</option><option selected>25</option><option>50</option><option>100</option></select></label>
-      <label>Mode<select id="mode"><option value="local">Local scanner</option><option value="broadcast">Broadcast planning</option></select></label>
-    </div><button id="saveSettings">Save settings</button><span id="notice" class="muted"></span></section>
-    <section class="card"><div class="section-title"><div><h2>Import channels</h2><p class="muted">CSV or JSON with frequency_mhz, tag, latitude, and longitude.</p></div><div><input id="file" type="file" accept=".csv,.json"><button id="import">Import file</button></div></div></section>
-    <section class="card"><div class="section-title"><div><h2>Scan list</h2><p id="count" class="muted"></p></div><button id="download">Download systems.json</button></div><div class="table-wrap"><table><thead><tr><th>Channel</th><th>Frequency</th><th>Distance</th><th>Mode</th><th>Actions</th></tr></thead><tbody id="channels"></tbody></table></div></section>
-    <section class="card"><h2>Add a channel</h2><form id="addForm" class="grid"><label>Tag<input name="tag" required placeholder="Fire Dispatch"></label><label>Frequency MHz<input name="frequency_mhz" required type="number" step="0.000001" placeholder="154.070"></label><label>Modulation<select name="modulation"><option>FM</option><option>AM</option></select></label><label>Tone<input name="tone" placeholder="103.5"></label><label>Latitude<input name="latitude" type="number" step="any"></label><label>Longitude<input name="longitude" type="number" step="any"></label><button>Add to scan list</button></form></section>
-  </main><script src="app.js"></script>
-</body></html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PiScan Control</title><link rel="stylesheet" href="styles.css"></head>
+<body><header><div><p class="eyebrow">PISCAN / CONTROL PLANE</p><h1>Scanner workspace</h1><p class="muted">Build and test scan lists before connecting radio hardware.</p></div><span id="modeBadge" class="badge">LOCAL</span></header><main>
+<section class="card settings"><h2>Location & mode</h2><div class="grid"><label>Latitude<input id="latitude" type="number" step="any" placeholder="42.10"></label><label>Longitude<input id="longitude" type="number" step="any" placeholder="-72.60"></label><label>Radius<select id="radius"><option>5</option><option>10</option><option selected>25</option><option>50</option><option>100</option></select></label><label>Mode<select id="mode"><option value="local">Local scanner</option><option value="broadcast">Broadcast planning</option></select></label></div><button id="saveSettings">Save settings</button> <span id="notice" class="muted"></span></section>
+<section class="card"><div class="section-title"><div><h2>Import channels</h2><p class="muted">CSV or JSON with frequency_mhz, tag, latitude, and longitude.</p></div><div><input id="file" type="file" accept=".csv,.json"><button id="import">Import file</button></div></div></section>
+<section class="card"><div class="section-title"><div><h2>Scan list</h2><p id="count" class="muted"></p></div><div><button id="apply">Write systems.json</button> <button id="download">Download systems.json</button></div></div><div class="table-wrap"><table><thead><tr><th>Channel</th><th>Frequency</th><th>Distance</th><th>Mode</th><th>Actions</th></tr></thead><tbody id="channels"></tbody></table></div></section>
+<section class="card"><h2>Add a channel</h2><form id="addForm" class="grid"><label>Tag<input name="tag" required placeholder="Fire Dispatch"></label><label>Frequency MHz<input name="frequency_mhz" required type="number" step="0.000001" placeholder="154.070"></label><label>Modulation<select name="modulation"><option>FM</option><option>AM</option></select></label><label>Tone<input name="tone" placeholder="103.5"></label><label>Latitude<input name="latitude" type="number" step="any"></label><label>Longitude<input name="longitude" type="number" step="any"></label><button>Add to scan list</button></form></section>
+</main><script src="app.js"></script></body></html>
